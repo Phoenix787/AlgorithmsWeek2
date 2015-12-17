@@ -1,14 +1,13 @@
-/**
- * Created by Ксения on 17.12.2015.
- */
+import java.util.Scanner;
+
 public class BracketsChecker {
     private String input;
 
-    public BracketsChecker(String in){
+    public BracketsChecker(String in) {
         input = in;
     }
 
-    public void check(){
+    public void check() {
         StringBuilder sb = new StringBuilder();
         int stackSize = input.length();
         StackX stack = new StackX(stackSize);
@@ -24,12 +23,12 @@ public class BracketsChecker {
                 case '}':
                 case ')':
                 case ']':
-                    if (!stack.isEmpty()){
+                    if (!stack.isEmpty()) {
                         char chx = stack.pop();
-                        if( (ch == '}' && chx != '{') ||
-                            (ch == ')' && chx != '(') ||
-                            (ch == ']' && chx != '[')) {
-                            System.out.println("Error " + ch + " at " + i);
+                        if ((ch == '}' && chx != '{') ||
+                                (ch == ')' && chx != '(') ||
+                                (ch == ']' && chx != '[')) {
+
                             if (ch == '}') {
                                 sb.append('{');
                             }
@@ -39,12 +38,12 @@ public class BracketsChecker {
                             if (ch == ']') {
                                 sb.append('[');
                             }
-                            sb.append(ch);
+
                         }
                         sb.append(ch);
 
-                    } else{
-                        System.out.println("Error " + ch + " at " + i );
+                    } else {
+
                         if (ch == '}') {
                             sb.append('{');
                         }
@@ -65,19 +64,68 @@ public class BracketsChecker {
 
         }
         if (!stack.isEmpty()) {
-            System.out.println("Error: missing right delimeter");
-            System.out.println(sb.toString());
+
+            while (!stack.isEmpty()) {
+                char chx = stack.pop();
+                if (chx == '{') {
+                    sb.append('}');
+                }
+                if (chx == '(') {
+                    sb.append(')');
+                }
+                if (chx == '[') {
+                    sb.append(']');
+                }
+            }
+
+            System.out.println((checkT(sb.toString()) ? sb.toString() : "IMPOSSIBLE"));
         }
         else
-            System.out.println(sb.toString());
+        System.out.println((checkT(sb.toString()) ? sb.toString() : "IMPOSSIBLE"));
 
     }
 
     public static void main(String[] args) {
-        String input = "}({[]})(";
+
+        Scanner sc = new Scanner(System.in);
+        String input = sc.nextLine();
 
         BracketsChecker checker = new BracketsChecker(input);
         checker.check();
 
+    }
+
+    public boolean checkT(String s) {
+        int stackSize = s.length();
+        StackX stack = new StackX(stackSize);
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            switch (ch) {
+                case '{':
+                case '(':
+                case '[':
+                    stack.push(ch);
+                    break;
+                case '}':
+                case ')':
+                case ']':
+                    if (!stack.isEmpty()) {
+                        char chx = stack.pop();
+                        if ((ch == '}' && chx != '{') ||
+                                (ch == ')' && chx != '(') ||
+                                (ch == ']' && chx != '['))
+                            System.out.println("Error " + ch + " at " + i);
+
+                    } else {
+                        System.out.println("Error " + ch + " at " + i);
+                    }
+                    break;
+                default:
+                    break;
+
+            }
+
+        }
+        return stack.isEmpty();
     }
 }
