@@ -14,11 +14,6 @@ public class Heap {
         return (currentSize == 0);
     }
 
-    public void buildHeap(int index){
-        //for (int i = heapArray.length / 2 - 1; i >= 0 ; i--) {
-            trickleDown(index);
-       // }
-    }
 
     public boolean insert(int key){
         if (currentSize == maxSize) {
@@ -39,17 +34,8 @@ public class Heap {
             }
             swap(heapArray, index, parent);
             index = parent;
-            //trickleUp(index);
-        }
 
-//        int parent = (index - 1)/2;
-//        int bottom = heapArray[index];
-//        while(index > 0 && heapArray[parent] < bottom){
-//            heapArray[index] = heapArray[parent];
-//            index = parent;
-//            parent = (parent - 1) / 2;
-//        }
-//        heapArray[index] = bottom;
+        }
     }
 
     public int remove(){
